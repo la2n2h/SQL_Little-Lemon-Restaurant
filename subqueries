@@ -109,7 +109,7 @@ SELECT * FROM MenuItems WHERE Price > ALL (SELECT Price FROM MenuItems WHERE Typ
 8 rows in set (0.00 sec)
 
 #  find the menu items that costs the same as the starter menu items that are Italian cuisine.
-SELECT * FROM MenuItems WHERE Price IN (SELECT Price FROM MenuItems WHERE ItemID = (SELECT ItemID FROM Menus WHERE Cuisine = 'Italian') AND Type ='Starters');
+SELECT * FROM MenuItems WHERE Price = (SELECT Price FROM MenuItems WHERE ItemID = (SELECT ItemID FROM Menus WHERE Cuisine = 'Italian') AND Type ='Starters');
 
 SELECT * FROM MenuItems WHERE Price = (SELECT Price FROM Menus, MenuItems WHERE Menus.ItemID = MenuItems.ItemID AND MenuItems.Type = 'Starters' AND Cuisine = 'Italian'); 
 +--------+--------------+----------+-------+
@@ -119,3 +119,16 @@ SELECT * FROM MenuItems WHERE Price = (SELECT Price FROM Menus, MenuItems WHERE 
 |      4 | Tomato bread | Starters |     8 |
 +--------+--------------+----------+-------+
 2 rows in set (0.00 sec)
+
+# Find the menu items that were not ordered by the guests who placed bookings.
+SELECT * FROM MenuItems WHERE NOT EXISTS (SELECT * FROM TableOrders, Menus WHERE TableOrders.MenuID = Menus.MenuID AND Menus.ItemID = MenuItems.ItemID); 
++--------+----------------+--------------+-------+
+| ItemID | Name           | Type         | Price |
++--------+----------------+--------------+-------+
+|      2 | Flatbread      | Starters     |     5 |
+|      4 | Tomato bread   | Starters     |     8 |
+|      6 | Hummus         | Starters     |     5 |
+|      8 | Bean soup      | Main Courses |    12 |
+|     14 | Corfu Red Wine | Drinks       |    30 |
++--------+----------------+--------------+-------+
+5 rows in set (0.00 sec)
