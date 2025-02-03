@@ -1,9 +1,10 @@
 create database little_lemon
 mysql> use little_lemon;
 Database changed
+
+# create new table name FoodOrders
 mysql> create table FoodOrders (OrderID INT, Quantity INT, OrderStatus varchar(15), Cost Decimal(4,2));
 Query OK, 0 rows affected (0.14 sec)
-
 mysql> show columns from FoodOrders;
 +-------------+--------------+------+-----+---------+-------+
 | Field       | Type         | Null | Key | Default | Extra |
@@ -15,6 +16,7 @@ mysql> show columns from FoodOrders;
 +-------------+--------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 
+# change the type of value in table
 mysql> alter table FoodOrders modify OrderID int not null primary key, modify Quantity int not null , modify Cost decimal(4,2) not null;
 show columns from FoodOrders;
 +-------------+--------------+------+-----+---------+-------+
@@ -27,6 +29,7 @@ show columns from FoodOrders;
 +-------------+--------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 
+# Insert OrderDate and CustomerID into FoodOrder table
 alter table FoodOrders add column OrderDate date not null, add column CustomerID int not null;
 show columns from FoodOrders;
 
@@ -42,6 +45,7 @@ show columns from FoodOrders;
 +-------------+--------------+------+-----+---------+-------+
 6 rows in set (0.00 sec)
 
+# remove OrderDate out of FoodOrders Table
 alter table FoodOrders drop column OrderDate;
 show columns from FoodOrders;
 +-------------+--------------+------+-----+---------+-------+
@@ -57,6 +61,7 @@ show columns from FoodOrders;
 
 alter table FoodOrders change OrderStatus Order_Status varchar(15);
 
+# change the table name
 alter table FoodOrders rename Food_Orders;
 show columns from Food_Orders;
 +--------------+--------------+------+-----+---------+-------+
