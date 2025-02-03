@@ -1,0 +1,71 @@
+create database little_lemon
+mysql> use little_lemon;
+Database changed
+mysql> create table FoodOrders (OrderID INT, Quantity INT, OrderStatus varchar(15), Cost Decimal(4,2));
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> show columns from FoodOrders;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| OrderID     | int          | YES  |     | NULL    |       |
+| Quantity    | int          | YES  |     | NULL    |       |
+| OrderStatus | varchar(15)  | YES  |     | NULL    |       |
+| Cost        | decimal(4,2) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table FoodOrders modify OrderID int not null primary key, modify Quantity int not null , modify Cost decimal(4,2) not null;
+show columns from FoodOrders;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| OrderID     | int          | NO   | PRI | NULL    |       |
+| Quantity    | int          | NO   |     | NULL    |       |
+| OrderStatus | varchar(15)  | YES  |     | NULL    |       |
+| Cost        | decimal(4,2) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+alter table FoodOrders add column OrderDate date not null, add column CustomerID int not null;
+show columns from FoodOrders;
+
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| OrderID     | int          | NO   | PRI | NULL    |       |
+| Quantity    | int          | NO   |     | NULL    |       |
+| OrderStatus | varchar(15)  | YES  |     | NULL    |       |
+| Cost        | decimal(4,2) | NO   |     | NULL    |       |
+| OrderDate   | date         | NO   |     | NULL    |       |
+| CustomerID  | int          | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+alter table FoodOrders drop column OrderDate;
+show columns from FoodOrders;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| OrderID     | int          | NO   | PRI | NULL    |       |
+| Quantity    | int          | NO   |     | NULL    |       |
+| OrderStatus | varchar(15)  | YES  |     | NULL    |       |
+| Cost        | decimal(4,2) | NO   |     | NULL    |       |
+| CustomerID  | int          | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+alter table FoodOrders change OrderStatus Order_Status varchar(15);
+
+alter table FoodOrders rename Food_Orders;
+show columns from Food_Orders;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| OrderID      | int          | NO   | PRI | NULL    |       |
+| Quantity     | int          | NO   |     | NULL    |       |
+| Order_Status | varchar(15)  | YES  |     | NULL    |       |
+| Cost         | decimal(4,2) | NO   |     | NULL    |       |
+| CustomerID   | int          | NO   |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
