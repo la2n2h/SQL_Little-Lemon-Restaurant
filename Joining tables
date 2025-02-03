@@ -1,0 +1,73 @@
+# Little Lemon is a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist. The Little Lemon database contains many tables of data including Customers and Bookings.
+
+# create database name little_lemon
+  CREATE DATABASE little_lemon;
+
+# Use database little _lemon
+USE little-lemon;
+
+# Create table name Customers
+CREATE TABLE Customers (CustomerID INT NOT NULL PRIMARY KEY, FullName varchar(100) NOT NULL, PhoneNumber INT NOT NULL UNIQUE);
+
+# Insert Value into table Customers
+INSERT INTO Customers (CustomerID, FullName, PhoneNumber) VALUE (1, "Vanessa McCarthy", 0757536378), (2, "Marcos Romero", 0757536379), (3, "Hiroki Yamane", 0757536376), (4, "Anna Iversen", 0757536375), (5, "Diana Pinto", 0757536374);
+
+# View table name Customers
+SELECT * FROM Customers;
++------------+------------------+-------------+
+| CustomerID | FullName         | PhoneNumber |
++------------+------------------+-------------+
+|          1 | Vanessa McCarthy |   757536378 |
+|          2 | Marcos Romero    |   757536379 |
+|          3 | Hiroki Yamane    |   757536376 |
+|          4 | Anna Iversen     |   757536375 |
+|          5 | Diana Pinto      |   757536374 |
++------------+------------------+-------------+
+5 rows in set (0.00 sec)
+
+# Create table name Bookings
+CREATE TABLE Bookings (BookingID INT NOT NULL PRIMARY KEY, BookingDate Date NOT NULL, TableNumber INT NOT NULL, NumberOfGuests INT NOT NULL CHECK (NumberOfGuests <=8), CustomerID INT NOT NULL, FOREIGN KEY (CustomerID) REFERENCES Customers (CustomerID) ON DELETE CASCADE ON UPDATE CASCADE);
+
+# Insert Value into table Bookings
+INSERT INTO Bookings (BookingID, BookingDate, TableNumber, NumberOfGuests, CustomerID) VALUE (10, '2021-11-11', 7, 5, 1), (11, '2021-11-10', 5, 2, 2), (12, '2021-11-10', 3, 2, 4);
+
+# View the table name Bookings
+SELECT * FROM Bookings;
++-----------+-------------+-------------+----------------+------------+
+| BookingID | BookingDate | TableNumber | NumberOfGuests | CustomerID |
++-----------+-------------+-------------+----------------+------------+
+|        10 | 2021-11-11  |           7 |              5 |          1 |
+|        11 | 2021-11-10  |           5 |              2 |          2 |
+|        12 | 2021-11-10  |           3 |              2 |          4 |
++-----------+-------------+-------------+----------------+------------+
+3 rows in set (0.00 sec)
+
+# List of all customers who have made bookings.
+SELECT C.CustomerID, C.FullName, C.PhoneNumber, B.BookingDate, B.NumberOfGuests
+FROM Customers AS C
+INNER JOIN Bookings AS B
+ON C.CustomerID = B.CustomerID;
++------------+------------------+-------------+-------------+----------------+
+| CustomerID | FullName         | PhoneNumber | BookingDate | NumberOfGuests |
++------------+------------------+-------------+-------------+----------------+
+|          1 | Vanessa McCarthy |   757536378 | 2021-11-11  |              5 |
+|          2 | Marcos Romero    |   757536379 | 2021-11-10  |              2 |
+|          4 | Anna Iversen     |   757536375 | 2021-11-10  |              2 |
++------------+------------------+-------------+-------------+----------------+
+3 rows in set (0.00 sec)
+
+# View information about all existing customers with bookings that have been made so far
+SELECT C.CustomerID, C.FullName, C.PhoneNumber, B.BookingID
+FROM Customers AS C
+LEFT JOIN Bookings AS B
+ON C.CustomerID = B.CustomerID;
++------------+------------------+-------------+-----------+
+| CustomerID | FullName         | PhoneNumber | BookingID |
++------------+------------------+-------------+-----------+
+|          1 | Vanessa McCarthy |   757536378 |        10 |
+|          2 | Marcos Romero    |   757536379 |        11 |
+|          3 | Hiroki Yamane    |   757536376 |      NULL |
+|          4 | Anna Iversen     |   757536375 |        12 |
+|          5 | Diana Pinto      |   757536374 |      NULL |
++------------+------------------+-------------+-----------+
+5 rows in set (0.00 sec)
